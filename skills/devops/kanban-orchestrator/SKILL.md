@@ -7,7 +7,7 @@ environments: [kanban]
 metadata:
   hermes:
     tags: [kanban, multi-agent, orchestration, routing]
-    related_skills: [kanban-worker, autonomous-merge-gate]
+    related_skills: [kanban-worker, autonomous-merge-gate, deterministic-routing]
 ---
 
 # Kanban Orchestrator — Decomposition Playbook
