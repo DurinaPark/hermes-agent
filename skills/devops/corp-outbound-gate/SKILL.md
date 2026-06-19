@@ -1,6 +1,6 @@
 ---
 name: corp-outbound-gate
-description: Use before sending ANY content from this EXTERNAL node toward the corporate side (claude-175 / 사내 OA / VDI). Run the text through the deterministic IP-gateway sanitizer (python3 -m relay.make_packet) first — it masks names/numbers/codes/claims by rule, not by LLM judgement. If it exits non-zero, the content is blocked: do NOT send it.
+description: Use before sending ANY content from this EXTERNAL node toward the corporate side (claude-175 / 사내 OA / VDI). Run the text through the deterministic IP-gateway sanitizer (python3 -m relay.make_packet) first — it masks names, numbers, codes, and claims by rule, not by LLM judgement. A non-zero exit means the content is blocked, so do NOT send it.
 version: 1.0.0
 author: Hermes Agent (doitnow.park IP gateway wiring, 2026-06-19)
 license: MIT
