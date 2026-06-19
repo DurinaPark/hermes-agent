@@ -34,10 +34,18 @@ services:
     restart: unless-stopped
     network_mode: host
     volumes:
-      - ~/.hermes:/opt/data
+      - /volume1/homes/jollychum/.hermes:/opt/data
+      # IP-gateway wiring (pivot Phase 3, EXTERNAL): mount home-system read-only
+      # so the agent can call the deterministic outbound sanitizer at
+      # `python3 -m relay.make_packet`. SSOT — same code self-EngOS uses, no drift.
+      - /volume1/homes/jollychum/home-system:/opt/home-system:ro
     environment:
       - HERMES_UID=${HERMES_UID:-10000}
       - HERMES_GID=${HERMES_GID:-10000}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      # Put home-system packages (relay, shared_services) on the import path for
+      # the IP-gateway wiring above. Container .venv python3 (3.13) has pyyaml.
+      - PYTHONPATH=/opt/home-system
       # To expose the OpenAI-compatible API server beyond localhost,
       # uncomment BOTH lines (API_SERVER_KEY is mandatory for auth):
       # - API_SERVER_HOST=0.0.0.0
@@ -68,9 +76,10 @@ services:
     depends_on:
       - gateway
     volumes:
-      - ~/.hermes:/opt/data
+      - /volume1/homes/jollychum/.hermes:/opt/data
     environment:
       - HERMES_UID=${HERMES_UID:-10000}
       - HERMES_GID=${HERMES_GID:-10000}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
     # Localhost-only. For remote access, tunnel via `ssh -L 9119:localhost:9119`.
     command: ["dashboard", "--host", "127.0.0.1", "--no-open"]
